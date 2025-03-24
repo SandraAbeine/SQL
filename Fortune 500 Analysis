@@ -59,6 +59,7 @@ VALUES
     ('Company KK', 'Healthcare', 150.2, 3400, 0, 16, 8, 5.3);
 
 # Actual Analysis
+
 --Query1: Highest Grossing Industry. Total revenue of all companies per industry, grouped and sorted in descending order 
 SELECT industry, ROUND(SUM(revenue), 2) as total_rev
 FROM fortune_companies
@@ -97,3 +98,6 @@ MAX(avg_employee_tenure) AS max_avg_tenure
 FROM fortune_companies
 GROUP BY industry
 ORDER BY shortest_avg_tenure;
+
+
+
