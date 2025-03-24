@@ -80,3 +80,20 @@ ORDER BY total_industry_employees desc;
 SELECT company_name, employees
 FROM fortune_companies
 ORDER BY employees desc;
+
+--Query 5: Companies with good employee benefits
+SELECT company_name, healthcare_benefits, paid_time_off_days, maternity_leave_weeks
+FROM fortune_companies
+WHERE 
+	healthcare_benefits = 1 
+    AND paid_time_off_days>= (SELECT AVG (paid_time_off_days) from fortune_companies)
+    AND maternity_leave_weeks >= 12
+    ;
+--Query6: Depicting spread of avg_employee_tenure within each industry
+SELECT industry,
+MIN (avg_employee_tenure) AS shortest_avg_tenure,
+ROUND(AVG (avg_employee_tenure), 2) AS avg_avg_tenure,
+MAX(avg_employee_tenure) AS max_avg_tenure
+FROM fortune_companies
+GROUP BY industry
+ORDER BY shortest_avg_tenure;
