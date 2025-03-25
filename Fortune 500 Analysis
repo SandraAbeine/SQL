@@ -87,9 +87,10 @@ SELECT company_name, healthcare_benefits, paid_time_off_days, maternity_leave_we
 FROM fortune_companies
 WHERE 
 	healthcare_benefits = 1 
-    AND paid_time_off_days>= (SELECT AVG (paid_time_off_days) from fortune_companies)
-    AND maternity_leave_weeks >= 12
-    ;
+	AND paid_time_off_days>= (SELECT AVG (paid_time_off_days) from fortune_companies)
+	AND maternity_leave_weeks >= 12
+;
+
 --Query6: Depicting spread of avg_employee_tenure within each industry
 SELECT industry,
 MIN (avg_employee_tenure) AS shortest_avg_tenure,
@@ -99,5 +100,13 @@ FROM fortune_companies
 GROUP BY industry
 ORDER BY shortest_avg_tenure;
 
-
+--Query7: Remarking on each company's average employee tenure status.
+SELECT company_name, avg_employee_tenure,
+CASE
+WHEN avg_employee_tenure > (SELECT AVG (avg_employee_tenure) FROM fortune_companies) THEN "above avergae employee tenure"
+ELSE "below avergae employee tenure"
+END AS "Tenure Status"
+FROM fortune_companies
+ORDER BY "Tenure Status"
+;
 
