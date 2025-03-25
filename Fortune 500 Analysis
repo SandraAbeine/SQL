@@ -64,23 +64,27 @@ VALUES
 SELECT industry, ROUND(SUM(revenue), 2) as total_rev
 FROM fortune_companies
 GROUP BY industry
-ORDER BY total_rev desc;
+ORDER BY total_rev desc
+;
 
 --Query2: Highest grossing company. Companies ranked in descending order according to their revenue. 
 SELECT company_name, industry, revenue,
 RANK() OVER (ORDER BY REVENUE DESC) AS revenue_rank
-FROM fortune_companies;
+FROM fortune_companies
+;
 
 --Query3: Ranking industries according to total number of employees across all companies
 SELECT industry, SUM(employees) AS total_industry_employees
 FROM fortune_companies
 GROUP BY industry
-ORDER BY total_industry_employees desc;
+ORDER BY total_industry_employees desc
+;
 
 --Query4: Ranking companies according to  number of employess
 SELECT company_name, employees
 FROM fortune_companies
-ORDER BY employees desc;
+ORDER BY employees desc
+;
 
 --Query 5: Companies with good employee benefits
 SELECT company_name, healthcare_benefits, paid_time_off_days, maternity_leave_weeks
@@ -98,7 +102,8 @@ ROUND(AVG (avg_employee_tenure), 2) AS avg_avg_tenure,
 MAX(avg_employee_tenure) AS max_avg_tenure
 FROM fortune_companies
 GROUP BY industry
-ORDER BY shortest_avg_tenure;
+ORDER BY shortest_avg_tenure
+;
 
 --Query7: Remarking on each company's average employee tenure status.
 SELECT company_name, avg_employee_tenure,
@@ -110,3 +115,10 @@ FROM fortune_companies
 ORDER BY "Tenure Status"
 ;
 
+--Query8: Depicting industries whose total revenue from all children companies is above 1000
+SELECT industry,
+SUM(revenue) AS total_rev
+FROM fortune_companies
+GROUP BY industry
+HAVING total_rev >= 1000
+;
