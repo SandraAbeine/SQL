@@ -121,3 +121,36 @@ INSERT INTO hotels VALUES
  , (2, 'Marriott', '1240 Marshall Avenue, Cityville, PA')
  , (3, 'Four Season''s', '900 Winter Road, Cityville, PA')
  ;
+
+
+--Query1; Left Join displaying at which event each guest is presenting.
+SELECT vips.member_id
+    , vips.first_name || ' ' || last_name AS Name      /# concatenated two columns into one new column #/
+    , events.event_id
+    , events.event_name
+FROM vips
+LEFT JOIN events
+ON vips.event = events.event_id
+;
+
+--Query2; Inner Join showing at which event each guest is presenting for only those guests that are actually presenting.
+SELECT vips.member_id
+    , vips.first_name || ' ' || last_name AS Name
+    , events.event_id
+    , events.event_name
+FROM vips
+INNER JOIN events
+ON vips.event = events.event_id
+;
+
+--Query3; Hotel at which each guest is staying, for those guests who have reservations.
+SELECT vips.member_id
+	, vips. first_name || ' ' || last_name AS Member_name
+	, hotels.hotel_name
+FROM vips
+LEFT JOIN reservations
+ON vips.member_id = reservations.member_id
+
+INNER JOIN hotels
+ON hotels.hotel_id = reservations.hotel
+;
