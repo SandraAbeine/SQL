@@ -143,7 +143,7 @@ INNER JOIN events
 ON vips.event = events.event_id
 ;
 
---Query3; Hotel at which each guest is staying, for those guests who have reservations.
+--Query3; Multiple join showing at which hotel each guest is staying, for those guests who have reservations.
 SELECT vips.member_id
 	, vips. first_name || ' ' || last_name AS Member_name
 	, hotels.hotel_name
@@ -154,3 +154,31 @@ ON vips.member_id = reservations.member_id
 INNER JOIN hotels
 ON hotels.hotel_id = reservations.hotel
 ;
+
+--Query4; Using a Subquery to display only those guests participating in workshop type event.
+
+--Query5; Self Join displaying to which speaker each panelist provides feedback.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
