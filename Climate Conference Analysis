@@ -1,4 +1,4 @@
---Climate Conference Database
+/# -------------------------Climate Conference Database------------------------- #/
 CREATE TABLE vips (
      member_id INTEGER PRIMARY KEY
    , last_name TEXT
@@ -122,6 +122,7 @@ INSERT INTO hotels VALUES
  , (3, 'Four Season''s', '900 Winter Road, Cityville, PA')
  ;
 
+/# ----------------------------------------Analysis------------------------------------------------------- #/
 
 --Query1; Left Join displaying at which event each guest is presenting.
 SELECT vips.member_id
@@ -133,7 +134,7 @@ LEFT JOIN events
 ON vips.event = events.event_id
 ;
 
---Query2; Inner Join showing at which event each guest is presenting for only those guests that are actually presenting.
+--Query2; Inner Join showing at which event each guest is presenting, for only those guests that are actually presenting.
 SELECT vips.member_id
     , vips.first_name || ' ' || last_name AS Name
     , events.event_id
@@ -155,12 +156,37 @@ INNER JOIN hotels
 ON hotels.hotel_id = reservations.hotel
 ;
 
---Query4; Using a Subquery to display only those guests participating in workshop type event.
+--Query4; Self Join displaying which speaker each panelist provides feedback.
+SELECT Reviewers.member_id
+	, Reviewers.first_name || ' ' || Reviewers.last_name AS Reviewer_name
+	, Speakers.first_name || ' ' || Speakers.last_name AS Speaker_name
+FROM vips AS Reviewers
+INNER JOIN vips AS Speakers
+ON Speakers.member_id = Reviewers.provides_feedback_to
+;
 
---Query5; Self Join displaying to which speaker each panelist provides feedback.
+--Query5; Using a Subquery to display guests attending the Welcome party and Thank you dinner.
+SELECT member_id
+	, first_name
+	, last_name
+FROM vips
+WHERE member_id IN
+	(
+    SELECT member_id
+    FROM reservations 
+    WHERE welcome_rsvp = 1 AND dinner_rsvp = 1
+    )
+;
 
-
-
+--Query6; Displaying at which event a guest is presenting.
+SELECT vips.member_id
+, vips.first_name || ' ' || vips.last_name AS Name
+, events.event_type
+, events.event_name
+FROM vips
+LEFT JOIN events
+ON vips.event = events.event_id
+;
 
 
 
