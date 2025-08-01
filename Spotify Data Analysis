@@ -1,0 +1,52 @@
+
+
+--Query1: Most Popular Song
+SELECT artist_name, track_name, MAX(popularity)
+FROM BIT_DB.Spotifydata
+;
+
+--Query2: Selet Top 10 Most Popular Songs
+SELECT artist_name, track_name, popularity
+FROM BIT_DB.Spotifydata
+ORDER BY popularity desc
+LIMIT 10
+;
+
+--Query3: Most Popular Artist
+SELECT artist_name,
+        AVG(popularity) as "Average_Popularity"
+FROM Spotifydata
+GROUP BY artist_name
+order by Average_Popularity desc
+limit 1
+;
+
+--Query4: Top 10 Most Popular Artisits
+SELECT artist_name,
+        AVG(popularity) as "Average_Popularity"
+FROM Spotifydata
+GROUP BY artist_name
+order by Average_Popularity desc
+limit 10
+;
+
+--Query5: Compare the popularity of bottom 5 lowest valence and highest 5 valence songs
+SELECT artist_name, track_name, valence, popularity
+FROM Spotifydata
+where track_name IN
+      (select track_name 
+      from Spotifydata 
+      order by valence desc 
+      limit 5 )
+
+
+UNION ALL
+
+SELECT artist_name, track_name, valence, popularity
+FROM Spotifydata
+where track_name IN
+    (select track_name 
+    from Spotifydata 
+    order by valence asc 
+    limit 5)
+;
