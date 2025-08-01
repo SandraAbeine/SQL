@@ -33,7 +33,8 @@ GROUP BY Product
 ORDER BY price ASC
 LIMIT 1
 ;
--- or you can work around it with a subquery
+
+--Method 2: Using a subquery
 SELECT distinct JanSales.Product
 , JanSales.price
 FROM BIT_DB.JanSales
@@ -78,4 +79,63 @@ WHERE location like '%Los Angeles%'
 AND length(orderid) = 6
 AND orderid <> 'Order ID'
 GROUP BY Product
+;
+
+-- Query 9; Locations in New York that received at least 3 orders in January
+SELECT distinct(location), count(orderID)
+FROM BIT_DB.JanSales
+WHERE location LIKE '%New York%'
+AND length(orderID) = 6
+AND orderID <> 'Order ID'
+GROUP BY location
+HAVING count(orderID) > 2
+;
+
+--Query10:How many of each type of headphone were sold in February?
+SELECT Product, SUM(Quantity)
+FROM BIT_DB.FebSales
+WHERE Product LIKE '%Headphones%'
+GROUP BY Product
+;
+
+--Query11:What was the average amount spent per account in February?
+SELECT sum(quantity*price)/count(cust.acctnum)
+FROM BIT_DB.FebSales Feb
+
+LEFT JOIN BIT_DB.customers cust
+ON FEB.orderid=cust.order_id
+
+WHERE length(orderid) = 6 
+AND orderid <> 'Order ID'
+;
+
+--Query12: What was the average quantity of products purchased per account in February?
+select sum(quantity)/count(cust.acctnum) as 'ave qty'
+FROM BIT_DB.FebSales Feb
+
+LEFT JOIN BIT_DB.customers cust
+ON FEB.orderid=cust.order_id
+
+WHERE length(orderid) = 6 
+AND orderid <> 'Order ID'
+;
+
+-- Method2: Using Average Function
+SELECT avg(quantity*price) as ave qty
+FROM BIT_DB.FebSales Feb
+
+LEFT JOIN BIT_DB.customers cust
+ON FEB.orderid=cust.order_id
+
+WHERE length(orderid) = 6 
+AND orderid <> 'Order ID
+;
+
+--Query13: Which product brought in the most revenue in January and how much revenue did it bring in total
+SELECT product, 
+sum(quantity)*price as revenue
+FROM BIT_DB.JanSales 
+GROUP BY product
+ORDER BY revenue desc 
+LIMIT 1
 ;
